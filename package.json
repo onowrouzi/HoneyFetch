@@ -1,0 +1,41 @@
+{
+  "name": "honeyfetch",
+  "version": "1.0.0",
+  "description": "Simple Grocery List app.",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onowrouzi/HoneyFetch.git"
+  },
+  "dependencies": {
+    "assert": "^1.4.1",
+    "bcryptjs": "^2.3.0",
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-session": "^1.14.0",
+    "express-validator": "^2.20.8",
+    "mongodb": "^2.2.5",
+    "mongoose": "^4.5.7",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "q": "^1.4.1",
+    "socket.io": "^1.4.8"
+  },
+  "keywords": [
+    "MEAN",
+    "fetch",
+    "todo",
+    "grocery",
+    "list"
+  ],
+  "author": "onowrouzi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/onowrouzi/HoneyFetch/issues"
+  },
+  "homepage": "https://github.com/onowrouzi/HoneyFetch#readme"
+}

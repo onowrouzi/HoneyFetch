@@ -1,0 +1,24 @@
+<div class="container">
+
+	<h1 class="text-center"> LIST </h1>
+	
+	<table class="table table-striped table-bordered">
+		<tr>
+			<td>Item</td>
+			<td>Added By</td>
+			<td>Date Added</td>
+			<td>Check Off</td>
+		</tr>
+		<tr ng-repeat="item in items">
+			<td>{{item.itemname}}</td>
+			<td>{{item.addedBy}}</td>
+			<td>{{item.date}}</td>
+			<td><button class="btn btn-success" ng-click="checkOff(item)">GOT IT!</button></td>
+		<tr>
+	</table>
+
+	<button class="btn btn-success" ui-sref="edit">Edit List</button>
+
+	<button class="btn btn-danger" ng-click="logout()">Log out</button>
+
+</div>
