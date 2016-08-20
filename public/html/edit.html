@@ -11,10 +11,13 @@
 			<th>Delete</th>
 		</tr>
 		<tr ng-repeat="item in items">
-			<td>{{item.itemname}}</td>
-			<td>{{item.addedBy}}</td>
-			<td>{{item.date}}</td>
-			<td><button class="btn btn-success" ng-click("editItem(item)">EDIT</button></td>
+			<td><input ng-readonly="!editMode" ng-class="{readOnly: !editMode}" type="text" 
+				ng-model="item.itemname" placeholder="{{item.itemname}}"/></td>
+			<td><input ng-readonly="!editMode" ng-class="{readOnly: !editMode}" type="text" 
+				ng-model="item.addedBy" placeholder="{{item.addedBy}}"/></td>
+			<td><input ng-readonly="!editMode" ng-class="{readOnly: !editMode}" type="text" 
+				ng-model="item.date" placeholder="{{item.date}}"/></td>
+			<td><button class="btn btn-success" ng-click="editItem(item)">{{editButton}}</button></td>
 			<td><button class="btn btn-danger" ng-click="deleteItem(item)">DELETE</button></td>
 		</tr>
 	</table>

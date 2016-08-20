@@ -5,6 +5,9 @@
         .module('app')
         .controller('edit_controller', function edit_controller($scope, $state, $http, $q, $log, $window, $cookieStore) {
 			
+			$scope.editButton = "EDIT";
+			$scope.editMode = false;
+			
 			getItems().then(function(data){
 					$scope.items = data;
 					console.log(data);
@@ -22,9 +25,25 @@
                     url: '/items/',
                     data: item,
                 }).success(function() {
-                    console.log('success');
                     $window.location.reload();
                 });
+			};
+			
+			$scope.editItem = function(item){
+				if ($scope.editMode) {
+					$scope.editButton = "EDIT";
+					item.dateAdded = new Date();
+					$http({
+						method: 'PUT',
+						url: '/items/',
+						data: item, 
+					}).success(function(){
+						$window.location.reload();
+					});
+				} else {
+					$scope.editButton = "UPDATE";
+				}
+				$scope.editMode = !$scope.editMode;
 			};
 			
 			$scope.deleteItem = function(item){
@@ -33,7 +52,6 @@
 					url: '/items/',
 					params: {id: item._id},
 				}).success(function(){
-					console.log('success');
 					$window.location.reload();
 				});
 			};

@@ -20,16 +20,16 @@ router
 	})
 
 	.put('/', function(req, res){
-		var updateItem = Item.find({
-			'addedBy': req.body.username,
-			'itemname': req.body.itemname
-		});
+		console.log(req.body);
 		
-		updateItem = req.body;
-		
-		updateItem.save(function(err){
-			if (err) throw err;
-			else console.log('Item updated.');
+		Item.findById(req.body._id, function(err, item){
+			console.log(item);
+			item.update(req.body, function(err, info){
+				if (err) throw err;
+				else console.log('Updated item');
+				console.log(info);
+				res.end();
+			});
 		});
 	})
 
