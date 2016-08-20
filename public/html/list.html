@@ -16,12 +16,14 @@
 			</thead>
 			<tbody md-body>
 				<tr md-row ng-repeat="item in items | filter: {retrieved: false}">
-						<td md-cell>{{item.itemname}}</td>
-						<td md-cell>{{item.addedBy}}</td>
-						<td md-cell>{{item.date}}</td>
-						<td md-cell><md-button class="md-primary md-fab md-mini" ng-click="checkOff(item)">
+					<td md-cell>{{item.itemname}}</td>
+					<td md-cell>{{item.addedBy}}</td>
+					<td md-cell>{{item.date}}</td>
+					<td md-cell>
+						<md-button class="md-primary md-fab md-mini" ng-click="checkOff(item)">
 							<i class="glyphicon glyphicon-check"></i>
-						</md-button></td>
+						</md-button>
+					</td>
 				</tr>
 			</tbody>
 		</table>

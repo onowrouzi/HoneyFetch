@@ -9,13 +9,15 @@
 						<span class="glyphicon glyphicon-user"></span>
 					</span>
 					<input class="form-control" ng-model="user.username" type="text" placeholder="User Name..." name="username" autofocus required>
-				</div><br>
+				</div>
+				<br>
 				<div class="input-group input-group-sm">
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-lock"></span>
 					</span>
 					<input class="form-control" ng-model="user.password" type="password" placeholder="Password..." name="password" required>
-				</div><br>
+				</div>
+				<br>
 				<button ng-click="login(user)" class="btn btn-primary initBtn" type="submit">Login</button>
 			</form>
 			<br>
@@ -23,7 +25,8 @@
 			<h3 ng-show="error" class="error text-center">
 				Invalid user name or password... Try again.
 			</h3>
-			<br><br>
+			<br>
+			<br>
 		</div>
 	</div>
 </div>
