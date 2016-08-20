@@ -5,7 +5,6 @@ var Item = require('../models/item');
 
 router
 	.get('/', function(req, res){
-		console.log(req.query.user);
 		getItems(req.query.user).then(function(items){
 			res.json(items);
 		});
@@ -21,7 +20,7 @@ router
 
 	.put('/', function(req, res){
 		console.log(req.body);
-		
+
 		Item.findById(req.body._id, function(err, item){
 			console.log(item);
 			item.update(req.body, function(err, info){
@@ -38,7 +37,7 @@ router
 			if (err) throw err;
 			else console.log("Item deleted");
 		}).exec(res.end());
-		
+
 	});
 
 function getItems(data){

@@ -1,5 +1,18 @@
-.btn-primary, .btn-info {
+h1 {
+	font-family: Georgia;
+}
+
+.initBtn {
 	width: 100%;
+	box-shadow: rgba(25,25,25,0.7) 0 3px 5px;
+}
+
+td {
+	max-width: 15vw;
+}
+
+md-select {
+	min-width: 20vw;
 }
 
 .readOnly {

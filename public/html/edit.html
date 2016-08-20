@@ -1,32 +1,92 @@
 <div class="container">
-	
-	<h1 class="text-center">Edit List</h1>
+	<md-button class="md-primary md-raised pull-left" ui-sref="list">Return to List</md-button>
+	<md-button class="md-warn md-raised pull-right" ng-click="logout()">Log out</md-button>
+	<h1 class="text-center">Edit List</h1><br>
 
-	<table class="table table-striped table-bordered">
-		<tr>
-			<th>Item</th>
-			<th>Added By</th>
-			<th>Date Added</th>
-			<th>Edit</th>
-			<th>Delete</th>
-		</tr>
-		<tr ng-repeat="item in items">
-			<td><input ng-readonly="!editMode" ng-class="{readOnly: !editMode}" type="text" 
-				ng-model="item.itemname" placeholder="{{item.itemname}}"/></td>
-			<td><input ng-readonly="!editMode" ng-class="{readOnly: !editMode}" type="text" 
-				ng-model="item.addedBy" placeholder="{{item.addedBy}}"/></td>
-			<td><input ng-readonly="!editMode" ng-class="{readOnly: !editMode}" type="text" 
-				ng-model="item.date" placeholder="{{item.date}}"/></td>
-			<td><button class="btn btn-success" ng-click="editItem(item)">{{editButton}}</button></td>
-			<td><button class="btn btn-danger" ng-click="deleteItem(item)">DELETE</button></td>
-		</tr>
-	</table>
-	<form ng-submit="addItem(item)">
-		<input type="text" ng-model="item.itemname" placeholder="Item name..." /> 
-		<button class="btn btn-default" type="submit">ADD</button>
+	<form ng-show="items" ng-submit="addPrevItem(prevItem)">
+		<md-input-container layout="row">
+			<label>Previous Items</label>
+			<md-select ng-model="prevItem">
+				<md-option>None</md-option>
+				<md-option ng-repeat="item in items | filter: {retrieved: true}" ng-value="item">
+					{{item.itemname}}
+				</md-option>
+			</md-select>
+			<md-button class="md-primary md-fab md-mini" type="submit">
+				<i class="glyphicon glyphicon-plus"></i>
+			</md-button>
+		</md-input-container>
 	</form>
+
 	<br>
-	<button class="btn btn-success" ui-sref="list">Return to List</button>
-	<button class="btn btn-danger" ng-click="logout()">Log out</button>
+
+	<form ng-submit="addItem(item)">
+		<md-input-container layout="row">
+			<label>Add Item</label>
+			<input type="text" ng-model="item.itemname" placeholder="Item name..." required/>
+		</md-input-container>
+	</form>
+
+	<br>
+	
+	<form ng-submit="addUser(user)">
+		<md-input-container layout="row">
+			<label>Add User</label>
+			<input type="text" ng-model="user" placeholder="User name..." required/>
+		</md-input-container>
+	</form>
+
+	<md-table-container class="hidden-xs">
+		<table md-table>
+			<thead md-head>
+				<tr md-row>
+					<th md-column>Item</th>
+					<th md-column>Added By</th>
+					<th md-column>Date Added</th>
+					<th md-column>Edit</th>
+					<th md-column>Delete</th>
+				</tr>
+			</thead>
+			<tbody md-body>
+				<tr md-row ng-repeat="item in items | filter: {retrieved: false}">
+						<td md-cell>
+							<form ng-submit="editItem(item)">
+								<input ng-readonly="!item.edit" ng-class="{readOnly: !item.edit}" type="text"
+									ng-model="item.itemname" placeholder="{{item.itemname}}"/>
+							</form>
+						</td>
+						<td md-cell>{{item.addedBy}}</td>
+						<td md-cell>{{item.date}}</td>
+						<td md-cell>
+							<md-button class="md-primary md-fab md-mini" ng-click="editItem(item)">
+								<i ng-hide="item.edit" class="glyphicon glyphicon-pencil"></i>
+								<i ng-show="item.edit" class="glyphicon glyphicon-ok"></i>
+							</md-button>
+						</td>
+						<td md-cell>
+							<md-button class="md-warn md-fab md-mini" ng-click="deleteItem(item)">
+								<i class="glyphicon glyphicon-remove"></i>
+							</md-button>
+						</td>
+				</tr>
+			</tbody>
+		</table>
+	</md-table-container>
+
+	<md-card ng-repeat="item in items | filter: {retrieved: false}" class="visible-xs">
+		<md-card-content>
+			<form ng-submit="editItem(item)">
+				<input ng-readonly="!item.edit" ng-class="{readOnly: !item.edit}" type="text"
+					ng-model="item.itemname" placeholder="{{item.itemname}}"/>
+				<md-button class="md-primary md-fab md-mini" type="submit">
+					<i ng-hide="item.edit" class="glyphicon glyphicon-pencil"></i>
+					<i ng-show="item.edit" class="glyphicon glyphicon-ok"></i>
+				</md-button>
+				<md-button class="md-warn md-fab md-mini">
+					<i class="glyphicon glyphicon-remove"></i>
+				</md-button>
+			</form>
+		</md-card-content>
+	</md-card>
 
 </div>

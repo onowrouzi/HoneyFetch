@@ -3,7 +3,7 @@ var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-var User = require('../models/user'); 
+var User = require('../models/user');
 
 // REGISTER METHOD
 router.post('/register', function(req, res){
@@ -16,17 +16,17 @@ router.post('/register', function(req, res){
 	} else {
 		avatar = "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png";
 	}
-	
+
 	console.log("Attempting Registration...");
 	console.log("Username: " + username);
 	console.log("Password: " + password);
 	console.log("Confirm Password: " + confirmPassword);
-	
+
 	req.checkBody('username', 'Username is required').notEmpty();
 	req.checkBody('password', 'Password is required').notEmpty();
 	req.checkBody('confirmPassword', 'Passwords must match').equals(req.body.password);
 	var errors = req.validationErrors();
-	
+
 	if(errors){
 		console.log(errors);
 		return res.status(500).send({message: errors});
@@ -34,7 +34,7 @@ router.post('/register', function(req, res){
 		User.getUserByUsername(username, function(err, user){
 			if (err) {
 				console.log(err);
-				throw err; 
+				throw err;
 			}
 			if (user) {
 				console.log("USER NAME ALREADY EXISTS");
@@ -42,13 +42,13 @@ router.post('/register', function(req, res){
 			}
 			if (!user){
 				console.log('SUCCESS');
-				
+
 				var newUser = new User({
 					username: username,
 					password: password,
 					avatar: avatar
 				});
-				
+
 				User.createUser(newUser, function(err, user){
 					if (err) throw err;
 					console.log(user);
@@ -60,7 +60,7 @@ router.post('/register', function(req, res){
 });
 
 // START PASSPORT MAGIC
-passport.use(new LocalStrategy( 
+passport.use(new LocalStrategy(
   function(username, password, done) {
 	console.log("Attempting local strategy...");
     User.getUserByUsername(username, function(err, user){
@@ -82,7 +82,7 @@ passport.use(new LocalStrategy(
    	  });
     });
   }));
- 
+
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
@@ -97,17 +97,17 @@ passport.deserializeUser(function(id, done) {
 //LOGIN METHOD
 router.post('/login', function(req, res, next){
 	passport.authenticate('local', function(err, user, info) {
-		if (err) { 
-			console.log("SERVER ERROR"); 
+		if (err) {
+			console.log("SERVER ERROR");
 			return res.status(500).send({message: "SERVER ERROR"});
 		}
-		if (!user) { 
-			console.log("NO USER FOUND..."); 
-			return res.status(400).send({message: "NO USER FOUND"}); 
+		if (!user) {
+			console.log("NO USER FOUND...");
+			return res.status(400).send({message: "NO USER FOUND"});
 		}
 		req.logIn(user, function(err) {
-			if (err) { 
-				console.log("SERVER ERROR"); 
+			if (err) {
+				console.log("SERVER ERROR");
 				return res.status(500).send({message: "SERVER ERROR"});
 			}
 			console.log("LOGIN SUCCESS!");
@@ -116,11 +116,11 @@ router.post('/login', function(req, res, next){
 	})(req, res, next);
 });
 
-//LOGOUT METHOD	
+//LOGOUT METHOD
 router.get('/logout', function(req, res){
 	req.logout();
 	console.log("LOGGED OUT");
-	res.redirect('/#/');
+	res.redirect('/');
 });
 
 module.exports = router;
