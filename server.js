@@ -12,7 +12,7 @@ var localStrategy = require('passport-local').Strategy;
 var users = require('./routes/users');
 var items = require('./routes/items');
 
-mongoose.connect('mongodb://localhost/HoneyFetch', 
+mongoose.connect(MONGODB_URI,//'mongodb://localhost/HoneyFetch', 
 	function(){ console.log('HoneyFetch database connected!'); 
 });
 
