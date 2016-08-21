@@ -42,16 +42,8 @@ router
 
 function getItems(data) {
     var deferred = q.defer();
-    Item.find({
-        $or:[
-          {
-            'addedBy': data,
-        	},
-        	{
-            'receiver': data
-        	}
-        ]
-    }, function(err, item) {
+    Item.find({'users': data},
+      function(err, item) {
         if (err) deferred.reject(err);
         else deferred.resolve(item);
     });

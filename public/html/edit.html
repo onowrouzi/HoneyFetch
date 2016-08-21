@@ -32,7 +32,7 @@
 
 	<br>
 
-	<form ng-show="noReceiver" ng-submit="addUser(user)">
+	<form ng-show="items.length > 0" ng-submit="addUser(user)">
 		<md-input-container layout="row">
 			<label>Add User</label>
 			<input type="text" ng-model="user" placeholder="User name..." required/>

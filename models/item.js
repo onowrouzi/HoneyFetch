@@ -11,8 +11,8 @@ var ItemSchema = mongoose.Schema({
     addedBy: {
         type: String
     },
-    receiver: {
-        type: String
+    users: {
+        type: [String]
     },
     retrieved: {
         type: Boolean

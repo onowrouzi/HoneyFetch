@@ -5,7 +5,6 @@
         .module('app')
         .controller('edit_controller', function edit_controller($scope, $http, $q, $log, $window, $cookieStore, $mdToast) {
 
-            $scope.noReceiver = true;
             getItems();
 
             $scope.addItem = function(item) {
@@ -16,6 +15,7 @@
                     item.dateAdded = new Date();
                     item.addedBy = $cookieStore.get('username');
                     item.retrieved = item.edit = false;
+                    item.users = $scope.users;
                     $http({
                         method: 'POST',
                         url: '/items/',
@@ -32,6 +32,7 @@
                 $scope.prevItem = "";
                 item.dateAdded = new Date();
                 item.retrieved = item.edit = false;
+                item.users = $scope.users;
                 $http({
                     method: 'PUT',
                     url: '/items/',
@@ -43,8 +44,9 @@
             };
 
             $scope.addUser = function(user) {
+                $scope.users.push(user);
                 angular.forEach($scope.items, function(item) {
-                    item.receiver = user;
+                    item.users = $scope.users;
                     $http({
                         method: 'PUT',
                         url: '/items/',
@@ -54,7 +56,6 @@
                     });
                 });
                 showToast(user + ' added!', 1000);
-                $scope.noReceiver = false;
             }
 
             $scope.editItem = function(item) {
@@ -127,7 +128,11 @@
             function getItems() {
                 getPromiseItems().then(function(data) {
                     $scope.items = data;
-                    if ($scope.items[0].receiver) $scope.noReceiver = false;
+                    $scope.users = [];
+                    $scope.users.push($cookieStore.get('username'));
+                    angular.forEach($scope.items[0].users, function(user){
+                        if ($scope.users.indexOf(user) < 0) $scope.users.push(user);
+                    });
                     angular.forEach($scope.items, function(item) {
                         if (!item.date) item.date = moment(item.dateAdded).utc().format('MM/DD/YYYY hh:mm a');
                     });
