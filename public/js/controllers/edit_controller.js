@@ -3,7 +3,7 @@
 
     angular
         .module('app')
-        .controller('edit_controller', function edit_controller($scope, $http, $q, $log, $window, $cookieStore, $mdToast) {
+        .controller('edit_controller', function edit_controller($scope, $http, $q, $log, $cookieStore, getPromiseItems, showToast, logout) {
 
             $scope.users = [];
             $scope.users.push($cookieStore.get('username'));
@@ -89,10 +89,7 @@
                 });
             };
 
-            $scope.logout = function() {
-                $cookieStore.put('auth', false);
-                $window.location.reload();
-            };
+            $scope.logout = logout;
 
             function checkIfExists(item) {
                 var exists = false;
@@ -100,31 +97,6 @@
                     if (item.itemname == itm.itemname) exists = true;
                 });
                 return exists;
-            }
-
-            function showToast(text, delay){
-              $mdToast.show(
-                $mdToast.simple()
-                  .textContent(text)
-                  .hideDelay(delay)
-              );
-            }
-
-            function getPromiseItems() {
-                var deferred = $q.defer();
-                $http.get('/items/', {
-                    params: {
-                        user: $cookieStore.get('username')
-                    }
-                }).then(
-                    function handleSuccess(response) {
-                        console.log('Got promise list of items.');
-                        deferred.resolve(response.data);
-                    },
-                    function handleError(response) {
-                        console.log('Promise list of items failed.');
-                    });
-                return deferred.promise;
             }
 
             function getItems() {

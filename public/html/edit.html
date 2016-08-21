@@ -15,7 +15,7 @@
 					{{item.itemname}}
 				</md-option>
 			</md-select>
-			<md-button class="md-primary md-fab md-mini" type="submit">
+			<md-button class="md-primary md-fab md-mini" type="submit" aria-label="Add">
 				<i class="glyphicon glyphicon-plus"></i>
 			</md-button>
 		</md-input-container>
@@ -60,13 +60,13 @@
 					<td md-cell>{{item.addedBy}}</td>
 					<td md-cell>{{item.date}}</td>
 					<td md-cell>
-						<md-button class="md-primary md-fab md-mini" ng-click="editItem(item)">
+						<md-button class="md-primary md-fab md-mini" ng-click="editItem(item)" aria-label="Edit">
 							<i ng-hide="item.edit" class="glyphicon glyphicon-pencil"></i>
 							<i ng-show="item.edit" class="glyphicon glyphicon-ok"></i>
 						</md-button>
 					</td>
 					<td md-cell>
-						<md-button class="md-warn md-fab md-mini" ng-click="deleteItem(item)">
+						<md-button class="md-warn md-fab md-mini" ng-click="deleteItem(item)" aria-label="Delete">
 							<i class="glyphicon glyphicon-remove"></i>
 						</md-button>
 					</td>
@@ -81,12 +81,12 @@
 				<input ng-readonly="!item.edit" ng-class="{readOnly: !item.edit}" type="text" ng-model="item.itemname" placeholder="{{item.itemname}}" class="text-center" />
 				<br>
 				<div layout="row">
-					<md-button class="md-primary md-fab md-mini" type="submit">
+					<md-button class="md-primary md-fab md-mini" type="submit" aria-label="Edit">
 						<i ng-hide="item.edit" class="glyphicon glyphicon-pencil"></i>
 						<i ng-show="item.edit" class="glyphicon glyphicon-ok"></i>
 					</md-button>
 					<span flex></span>
-					<md-button class="md-warn md-fab md-mini" ng-click="deleteItem(item)">
+					<md-button class="md-warn md-fab md-mini" ng-click="deleteItem(item)" aria-label="Delete">
 						<i class="glyphicon glyphicon-remove"></i>
 					</md-button>
 				</div>

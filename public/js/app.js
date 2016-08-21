@@ -9,6 +9,6 @@
         'ngIdle',
         'ngMaterial',
         'md.data.table'
-    ]);
+    ])
 
 })();
