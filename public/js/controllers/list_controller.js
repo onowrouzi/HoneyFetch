@@ -7,10 +7,13 @@
 
             getItems().then(function(data) {
                 $scope.items = data;
-                console.log(data);
-                angular.forEach($scope.items, function(item) {
-                    item.date = moment(item.dateAdded).utc().format('MM/DD/YYYY hh:mm a');
-                });
+                if ($scope.items.length == 0) {
+                  $scope.noItems = true;
+                } else {
+                  angular.forEach($scope.items, function(item) {
+                      item.date = moment(item.dateAdded).utc().format('MM/DD/YYYY hh:mm a');
+                  });
+                }
             });
 
             $scope.checkOff = function(item) {

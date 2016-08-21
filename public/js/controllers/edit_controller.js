@@ -5,10 +5,12 @@
         .module('app')
         .controller('edit_controller', function edit_controller($scope, $http, $q, $log, $window, $cookieStore, $mdToast) {
 
+            $scope.users = [];
+            $scope.users.push($cookieStore.get('username'));
             getItems();
 
             $scope.addItem = function(item) {
-                console.log(checkIfExists(item));
+                $scope.noItems = false;
                 if (checkIfExists(item)) {
                     showToast('Item already exists!', 3000);
                 } else {
@@ -128,14 +130,16 @@
             function getItems() {
                 getPromiseItems().then(function(data) {
                     $scope.items = data;
-                    $scope.users = [];
-                    $scope.users.push($cookieStore.get('username'));
-                    angular.forEach($scope.items[0].users, function(user){
-                        if ($scope.users.indexOf(user) < 0) $scope.users.push(user);
-                    });
-                    angular.forEach($scope.items, function(item) {
-                        if (!item.date) item.date = moment(item.dateAdded).utc().format('MM/DD/YYYY hh:mm a');
-                    });
+                    if ($scope.items.length == 0){
+                      $scope.noItems = true;
+                    } else {
+                      angular.forEach($scope.items[0].users, function(user){
+                          if ($scope.users.indexOf(user) < 0) $scope.users.push(user);
+                      });
+                      angular.forEach($scope.items, function(item) {
+                          if (!item.date) item.date = moment(item.dateAdded).utc().format('MM/DD/YYYY hh:mm a');
+                      });
+                    }
                 });
             }
 

@@ -2,9 +2,36 @@ h1 {
     font-family: Georgia;
 }
 
-.initBtn {
+#login, #register {
+  margin-top: 10vh;
+  padding: 20px;
+  min-height: 60vh;
+}
+
+#loginBackground, #registerBackground {
+  background-color: #27A;
+  margin: 0;
+  margin-left: -15px;
+  width: 100vw;
+  min-height: 100vh;
+}
+
+#btn-login, #btn-register {
     width: 100%;
-    box-shadow: rgba(25, 25, 25, 0.7) 0 3px 5px;
+    line-height: 32px;
+    background-color: #059;
+    color: white;
+    font-weight: 900;
+    border-style: none;
+    border-radius: 2px;
+}
+
+#btn-login {
+  background-color: #38C;
+}
+
+#btn-register {
+  background-color: #047;
 }
 
 td {

@@ -1,32 +1,30 @@
-<div class="container">
+<div class="container" id="loginBackground">
 	<div class="row">
-		<div id="login" class="col-md-6 col-md-offset-3">
-			<h1 class="text-center">HoneyFetch</h1>
-			<br>
-			<form id="loginForm">
-				<div class="input-group input-group-sm">
-					<span class="input-group-addon">
-						<span class="glyphicon glyphicon-user"></span>
-					</span>
-					<input class="form-control" ng-model="user.username" type="text" placeholder="User Name..." name="username" autofocus required>
-				</div>
+		<div class="col-md-6 col-md-offset-3">
+			<md-card id="login" class="md-whiteframe-24dp">
+				<h1 class="text-center">HoneyFetch</h1>
 				<br>
-				<div class="input-group input-group-sm">
-					<span class="input-group-addon">
-						<span class="glyphicon glyphicon-lock"></span>
-					</span>
-					<input class="form-control" ng-model="user.password" type="password" placeholder="Password..." name="password" required>
-				</div>
+				<form>
+					<md-input-container layout="row" flex>
+						<label>User Name</label>
+						<input ng-model="user.username">
+					</md-input-container>
+					<md-input-container layout="row" flex>
+						<label>Password</label>
+						<input type="password" ng-model="user.password">
+					</md-input-container>
+					<br>
+					<br>
+					<button ng-click="login(user)" id="btn-login" type="submit">LOGIN</button>
+				</form>
 				<br>
-				<button ng-click="login(user)" class="btn btn-primary initBtn" type="submit">Login</button>
-			</form>
-			<br>
-			<a ui-sref="register" class="btn btn-info initBtn">Register</a>
-			<h3 ng-show="error" class="error text-center">
-				Invalid user name or password... Try again.
-			</h3>
-			<br>
-			<br>
+				<button ui-sref="register" id="btn-register">REGISTER</button>
+				<h3 ng-show="error" class="error text-center">
+					Invalid user name or password... Try again.
+				</h3>
+				<br>
+				<br>
+			</md-card>
 		</div>
 	</div>
 </div>
