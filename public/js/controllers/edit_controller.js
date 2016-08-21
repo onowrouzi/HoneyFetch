@@ -3,32 +3,33 @@
 
     angular
         .module('app')
-        .controller('edit_controller', function edit_controller($scope, $http, $q, $log, $window, $cookieStore) {
+        .controller('edit_controller', function edit_controller($scope, $http, $q, $log, $window, $cookieStore, $mdToast) {
 
-            $scope.editButton = "EDIT";
-
-            getItems().then(function(data) {
-                $scope.items = data;
-                console.log(data);
-                angular.forEach($scope.items, function(item) {
-                    if (!item.date) item.date = moment(item.dateAdded).utc().format('MM/DD/YYYY hh:mm a');
-                });
-            });
+            $scope.noReceiver = true;
+            getItems();
 
             $scope.addItem = function(item) {
-                item.dateAdded = new Date();
-                item.addedBy = $cookieStore.get('username');
-                item.retrieved = item.edit = false;
-                $http({
-                    method: 'POST',
-                    url: '/items/',
-                    data: item,
-                }).success(function() {
-                    $window.location.reload();
-                });
+                console.log(checkIfExists(item));
+                if (checkIfExists(item)) {
+                    showToast('Item already exists!', 3000);
+                } else {
+                    item.dateAdded = new Date();
+                    item.addedBy = $cookieStore.get('username');
+                    item.retrieved = item.edit = false;
+                    $http({
+                        method: 'POST',
+                        url: '/items/',
+                        data: item,
+                    }).success(function() {
+                        $scope.item = "";
+                        showToast('Item added!', 1000);
+                        getItems();
+                    });
+                }
             };
 
             $scope.addPrevItem = function(item) {
+                $scope.prevItem = "";
                 item.dateAdded = new Date();
                 item.retrieved = item.edit = false;
                 $http({
@@ -36,7 +37,8 @@
                     url: '/items/',
                     data: item,
                 }).success(function() {
-                    $window.location.reload();
+                    showToast('Item added!', 1000);
+                    getItems();
                 });
             };
 
@@ -48,9 +50,11 @@
                         url: '/items/',
                         data: item,
                     }).success(function() {
-                        console.log('Added receiver ' + user);
+                        console.log(user + ' added.');
                     });
                 });
+                showToast(user + ' added!', 1000);
+                $scope.noReceiver = false;
             }
 
             $scope.editItem = function(item) {
@@ -63,10 +67,9 @@
                         url: '/items/',
                         data: item,
                     }).success(function() {
-                        $window.location.reload();
+                        showToast('Item updated!', 1000);
+                        getItems();
                     });
-                } else {
-                    $scope.editButton = "UPDATE";
                 }
             };
 
@@ -78,7 +81,8 @@
                         id: item._id
                     },
                 }).success(function() {
-                    $window.location.reload();
+                    showToast('Item successfully deleted!', 1000);
+                    getItems();
                 });
             };
 
@@ -87,7 +91,23 @@
                 $window.location.reload();
             };
 
-            function getItems() {
+            function checkIfExists(item) {
+                var exists = false;
+                angular.forEach($scope.items, function(itm) {
+                    if (item.itemname == itm.itemname) exists = true;
+                });
+                return exists;
+            }
+
+            function showToast(text, delay){
+              $mdToast.show(
+                $mdToast.simple()
+                  .textContent(text)
+                  .hideDelay(delay)
+              );
+            }
+
+            function getPromiseItems() {
                 var deferred = $q.defer();
                 $http.get('/items/', {
                     params: {
@@ -102,6 +122,16 @@
                         console.log('Promise list of items failed.');
                     });
                 return deferred.promise;
+            }
+
+            function getItems() {
+                getPromiseItems().then(function(data) {
+                    $scope.items = data;
+                    if ($scope.items[0].receiver) $scope.noReceiver = false;
+                    angular.forEach($scope.items, function(item) {
+                        if (!item.date) item.date = moment(item.dateAdded).utc().format('MM/DD/YYYY hh:mm a');
+                    });
+                });
             }
 
         });

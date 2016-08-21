@@ -1,10 +1,12 @@
 <div class="container">
 	<md-button class="md-primary md-raised pull-left" ui-sref="list">Return to List</md-button>
 	<md-button class="md-warn md-raised pull-right" ng-click="logout()">Log out</md-button>
-	<h1 class="text-center">Edit List</h1>
-	<br>
 
-	<form ng-show="items" ng-submit="addPrevItem(prevItem)">
+	<br>
+	<br>
+	<h1 class="text-center">Edit List</h1>
+
+	<form ng-show="items.length > 0" ng-submit="addPrevItem(prevItem)">
 		<md-input-container layout="row">
 			<label>Previous Items</label>
 			<md-select ng-model="prevItem">
@@ -30,14 +32,14 @@
 
 	<br>
 
-	<form ng-submit="addUser(user)">
+	<form ng-show="noReceiver" ng-submit="addUser(user)">
 		<md-input-container layout="row">
 			<label>Add User</label>
 			<input type="text" ng-model="user" placeholder="User name..." required/>
 		</md-input-container>
 	</form>
 
-	<md-table-container class="hidden-xs">
+	<md-table-container ng-show="items.length > 0" class="hidden-xs">
 		<table md-table>
 			<thead md-head>
 				<tr md-row>
@@ -73,19 +75,27 @@
 		</table>
 	</md-table-container>
 
-	<md-card ng-repeat="item in items | filter: {retrieved: false}" class="visible-xs">
+	<md-card ng-show="items.length > 0" ng-repeat="item in items | filter: {retrieved: false}" class="visible-xs">
 		<md-card-content>
 			<form ng-submit="editItem(item)">
-				<input ng-readonly="!item.edit" ng-class="{readOnly: !item.edit}" type="text" ng-model="item.itemname" placeholder="{{item.itemname}}" />
-				<md-button class="md-primary md-fab md-mini" type="submit">
-					<i ng-hide="item.edit" class="glyphicon glyphicon-pencil"></i>
-					<i ng-show="item.edit" class="glyphicon glyphicon-ok"></i>
-				</md-button>
-				<md-button class="md-warn md-fab md-mini">
-					<i class="glyphicon glyphicon-remove"></i>
-				</md-button>
+				<input ng-readonly="!item.edit" ng-class="{readOnly: !item.edit}" type="text" ng-model="item.itemname" placeholder="{{item.itemname}}" class="text-center" />
+				<br>
+				<div layout="row">
+					<md-button class="md-primary md-fab md-mini" type="submit">
+						<i ng-hide="item.edit" class="glyphicon glyphicon-pencil"></i>
+						<i ng-show="item.edit" class="glyphicon glyphicon-ok"></i>
+					</md-button>
+					<span flex></span>
+					<md-button class="md-warn md-fab md-mini" ng-click="deleteItem(item)">
+						<i class="glyphicon glyphicon-remove"></i>
+					</md-button>
+				</div>
 			</form>
 		</md-card-content>
 	</md-card>
+
+	<br><br>
+
+	<h2 ng-hide="items.length > 0" class="text-center">Add some items to get started!</h2>
 
 </div>

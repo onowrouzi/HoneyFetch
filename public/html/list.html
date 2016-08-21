@@ -4,7 +4,7 @@
 	<md-button class="md-warn md-raised pull-right" ng-click="logout()">Log out</md-button>
 	<h1 class="text-center"> List </h1>
 
-	<md-table-container class="hidden-xs">
+	<md-table-container ng-show="items.length > 0" class="hidden-xs">
 		<table md-table>
 			<thead md-head>
 				<tr md-row>
@@ -29,12 +29,17 @@
 		</table>
 	</md-table-container>
 
-	<md-card ng-repeat="item in items | filter: {retrieved: false}" class="visible-xs">
-		<md-card-content>{{item.itemname}}
-			<md-button class="md-primary md-fab" ng-click="checkOff(item)">
+	<md-card ng-show="items.length > 0" ng-repeat="item in items | filter: {retrieved: false}" class="visible-xs">
+		<md-card-content layout="row" layout-align="left center">{{item.itemname}}
+			<span flex></span>
+			<md-button class="md-primary md-fab md-mini" ng-click="checkOff(item)">
 				<i class="glyphicon glyphicon-ok"></i>
 			</md-button>
 		</md-card-content>
 	</md-card>
+
+	<br><br>
+
+	<h2 ng-hide="items.length > 0" class="text-center"> No Items. Go to 'Edit List' to add some! </h2>
 
 </div>
