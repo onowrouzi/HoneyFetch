@@ -3,7 +3,7 @@ h1 {
 }
 
 #login, #register {
-  margin-top: 10vh;
+  margin-top: 40px;
   padding: 20px;
   min-height: 60vh;
 }
