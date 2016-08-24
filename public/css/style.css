@@ -52,10 +52,6 @@ td {
     max-width: 15vw;
 }
 
-md-select {
-    min-width: 20vw;
-}
-
 .readOnly {
     background: rgba(0, 0, 0, 0);
     border: 1px solid rgba(0, 0, 0, 0);
