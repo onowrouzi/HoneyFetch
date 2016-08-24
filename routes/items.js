@@ -19,13 +19,15 @@ router
 })
 
 .put('/', function(req, res) {
+    console.log("BODY: ");
     console.log(req.body);
 
     Item.findById(req.body._id, function(err, item) {
-        console.log(item);
+        console.log("ITEM: " + item);
         item.update(req.body, function(err, info) {
             if (err) throw err;
             else console.log('Updated item');
+            console.log("INFO: ");
             console.log(info);
             res.end();
         });

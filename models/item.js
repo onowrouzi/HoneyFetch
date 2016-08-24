@@ -14,6 +14,9 @@ var ItemSchema = mongoose.Schema({
     users: {
         type: [String]
     },
+    category: {
+        type: String
+    },
     retrieved: {
         type: Boolean
     }

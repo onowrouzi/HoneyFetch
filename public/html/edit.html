@@ -1,41 +1,67 @@
 <div class="container">
-	<md-button class="md-primary md-raised pull-left" ui-sref="list">Return to List</md-button>
+	<md-button class="md-primary md-raised pull-left" ui-sref="list">Back to List</md-button>
 	<md-button class="md-warn md-raised pull-right" ng-click="logout()">Log out</md-button>
 
 	<br>
 	<br>
 	<h1 class="text-center">Edit List</h1>
 
+	<md-card>
+		<md-card-content>
+			<form ng-submit="addItem(item)" layout="column">
+					<md-input-container>
+						<label>Add Item</label>
+						<input type="text" ng-model="item.itemname" placeholder="Item name..." required/>
+					</md-input-container>
+				<md-input-container layout="row">
+					<md-select aria-label="Select Category" ng-model="item.category" flex>
+						<label> Select Category </label>
+						<md-option ng-repeat="cat in categories track by $index" ng-value="cat">
+							{{cat}}
+						</md-option>
+					</md-select>
+				</md-input-container>
+				<md-button class="md-primary md-raised" type="submit" aria-label="Add">
+					ADD ITEM
+				</md-button>
+			</form>
+		</md-card-content>
+	</md-card>
+
 	<form ng-show="items.length > 0" ng-submit="addPrevItem(prevItem)">
-		<md-input-container layout="row">
+		<md-button class="md-primary md-fab md-mini" type="submit" aria-label="Add">
+			<i class="glyphicon glyphicon-plus"></i>
+		</md-button>
+		<md-input-container>
 			<label>Previous Items</label>
 			<md-select ng-model="prevItem">
 				<md-option>None</md-option>
-				<md-option ng-repeat="item in items | filter: {retrieved: true}" ng-value="item">
+				<md-option ng-repeat="item in items | filter: {retrieved: true} | orderBy: 'itemname' track by $index" ng-value="item">
 					{{item.itemname}}
 				</md-option>
 			</md-select>
-			<md-button class="md-primary md-fab md-mini" type="submit" aria-label="Add">
-				<i class="glyphicon glyphicon-plus"></i>
-			</md-button>
+		</md-input-container>
+	</form>
+
+	<form ng-show="items.length > 0" ng-submit="addCat(cat)">
+		<md-button class="md-primary md-fab md-mini" type="submit" aria-label="Category">
+			<i class="glyphicon glyphicon-list"></i>
+		</md-button>
+		<md-input-container>
+			<label>Add Category</label>
+			<input ng-model="cat">
 		</md-input-container>
 	</form>
 
 	<br>
 
-	<form ng-submit="addItem(item)">
-		<md-input-container layout="row">
-			<label>Add Item</label>
-			<input type="text" ng-model="item.itemname" placeholder="Item name..." required/>
-		</md-input-container>
-	</form>
-
-	<br>
-
-	<form ng-show="items.length > 0" ng-submit="addUser(user)">
-		<md-input-container layout="row">
-			<label>Add User</label>
-			<input type="text" ng-model="user" placeholder="User name..." required/>
+	<form ng-show="items.length > 0" ng-submit="addUser(user)" layout="row">
+		<md-button class="md-primary md-fab md-mini" type="submit" aria-label="Share">
+			<i class="glyphicon glyphicon-share"></i>
+		</md-button>
+		<md-input-container>
+			<label>Share list with... </label>
+			<input type="text" ng-model="user" required/>
 		</md-input-container>
 	</form>
 
@@ -45,19 +71,30 @@
 				<tr md-row>
 					<th md-column>Item</th>
 					<th md-column>Added By</th>
+					<th md-column>Category</th>
 					<th md-column>Date Added</th>
 					<th md-column>Edit</th>
 					<th md-column>Delete</th>
 				</tr>
 			</thead>
 			<tbody md-body>
-				<tr md-row ng-repeat="item in items | filter: {retrieved: false}">
+				<tr md-row ng-repeat="item in items | filter: {retrieved: false} | orderBy: 'itemname' track by $index">
 					<td md-cell>
 						<form ng-submit="editItem(item)">
 							<input ng-readonly="!item.edit" ng-class="{readOnly: !item.edit}" type="text" ng-model="item.itemname" placeholder="{{item.itemname}}" />
 						</form>
 					</td>
 					<td md-cell>{{item.addedBy}}</td>
+					<td md-cell>
+						<div ng-hide="item.edit">{{item.category}}</div>
+						<md-input-container ng-show="item.edit">
+							<md-select ng-disabled="!item.edit" aria-label="Select Category" ng-model="item.category">
+								<md-option ng-repeat="cat in categories track by $index" ng-value="cat">
+									{{cat}}
+								</md-option>
+							</md-select>
+						</md-input-container>
+					</td>
 					<td md-cell>{{item.date}}</td>
 					<td md-cell>
 						<md-button class="md-primary md-fab md-mini" ng-click="editItem(item)" aria-label="Edit">
@@ -75,16 +112,25 @@
 		</table>
 	</md-table-container>
 
-	<md-card ng-show="items.length > 0" ng-repeat="item in items | filter: {retrieved: false}" class="visible-xs">
+	<md-card ng-show="items.length > 0" ng-repeat="item in items | filter: {retrieved: false} | orderBy: 'itemname'" class="visible-xs">
 		<md-card-content>
 			<form ng-submit="editItem(item)">
 				<input ng-readonly="!item.edit" ng-class="{readOnly: !item.edit}" type="text" ng-model="item.itemname" placeholder="{{item.itemname}}" class="text-center" />
 				<br>
-				<div layout="row">
+				<div layout="row" layout-align="center center">
 					<md-button class="md-primary md-fab md-mini" type="submit" aria-label="Edit">
 						<i ng-hide="item.edit" class="glyphicon glyphicon-pencil"></i>
 						<i ng-show="item.edit" class="glyphicon glyphicon-ok"></i>
 					</md-button>
+					<span flex></span>
+					<div ng-hide="item.edit"><em>{{item.category}}</em></div>
+					<md-input-container ng-show="item.edit">
+						<md-select ng-disabled="!item.edit" aria-label="Select Category" ng-model="item.category">
+							<md-option ng-repeat="cat in categories track by $index" ng-value="cat">
+								{{cat}}
+							</md-option>
+						</md-select>
+					</md-input-container>
 					<span flex></span>
 					<md-button class="md-warn md-fab md-mini" ng-click="deleteItem(item)" aria-label="Delete">
 						<i class="glyphicon glyphicon-remove"></i>

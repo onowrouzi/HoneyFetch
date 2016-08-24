@@ -3,7 +3,11 @@
 
     angular
         .module('app')
-        .controller('list_controller', function list_controller($scope, $http, $q, $log, getPromiseItems, showToast, logout) {
+        .controller('list_controller', function list_controller($scope, $http, $log, getPromiseItems, exists, showToast, logout) {
+
+            $scope.isCollapsed = true;
+            $scope.categories = ['Produce', 'Canned', 'Condiments', 'Italian', 'Mexican', 'Asian',
+              'Bread', 'Snacks', 'Dairy', 'Beverage', 'Cleaning', 'Bathroom', 'Frozen'];
 
             getPromiseItems().then(function(data) {
                 $scope.items = data;
@@ -12,6 +16,8 @@
                 } else {
                   angular.forEach($scope.items, function(item) {
                       item.date = moment(item.dateAdded).utc().format('MM/DD/YYYY hh:mm a');
+                      if (!exists($scope.categories, item.category))
+                        $scope.categories.push(item.category);
                   });
                 }
             });

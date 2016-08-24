@@ -15,7 +15,7 @@
 				</tr>
 			</thead>
 			<tbody md-body>
-				<tr md-row ng-repeat="item in items | filter: {retrieved: false}">
+				<tr md-row ng-repeat="item in items | filter: {retrieved: false} | orderBy: 'itemname'">
 					<td md-cell>{{item.itemname}}</td>
 					<td md-cell>{{item.addedBy}}</td>
 					<td md-cell>{{item.date}}</td>
@@ -29,14 +29,32 @@
 		</table>
 	</md-table-container>
 
-	<md-card ng-show="items.length > 0" ng-repeat="item in items | filter: {retrieved: false}" class="visible-xs">
-		<md-card-content layout="row" layout-align="left center">{{item.itemname}}
-			<span flex></span>
-			<md-button class="md-primary md-fab md-mini" ng-click="checkOff(item)" aria-label="Check Off">
-				<i class="glyphicon glyphicon-ok"></i>
-			</md-button>
-		</md-card-content>
-	</md-card>
+	<div ng-show="items.length > 0" class="visible-xs" layout="row">
+		<md-button class="md-primary md-raised catBtn" data-toggle="collapse" data-target="#All">Show All</md-button>
+		<div id="All" class="collapse">
+			<md-card ng-repeat="item in items | filter: {retrieved: false} | orderBy: 'itemname'">
+				<md-card-content layout="row" layout-align="left center">{{item.itemname}}
+					<span flex></span>
+					<md-button class="md-primary md-fab md-mini" ng-click="checkOff(item)" aria-label="Check Off">
+						<i class="glyphicon glyphicon-ok"></i>
+					</md-button>
+				</md-card-content>
+			</md-card>
+		</div>
+		<div ng-repeat="cat in categories">
+			<md-button class="md-primary md-raised catBtn" ng-click="isCollapsed = !isCollapsed">{{cat}}</md-button>
+			<div uib-collapse="isCollapsed">
+				<md-card ng-repeat="item in items | filter: {retrieved: false, category: cat } | orderBy: 'itemname'">
+					<md-card-content layout="row" layout-align="left center">{{item.itemname}}
+						<span flex></span>
+						<md-button class="md-primary md-fab md-mini" ng-click="checkOff(item)" aria-label="Check Off">
+							<i class="glyphicon glyphicon-ok"></i>
+						</md-button>
+					</md-card-content>
+				</md-card>
+			</div>
+		</div>
+	</div>
 
 	<br><br>
 

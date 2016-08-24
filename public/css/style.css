@@ -1,5 +1,13 @@
+html {
+  background-color: white;
+}
+
 h1 {
     font-family: Georgia;
+}
+
+.md-raised {
+  font-weight: 900;
 }
 
 #login, #register {
@@ -21,7 +29,6 @@ h1 {
     line-height: 32px;
     background-color: #059;
     color: white;
-    font-weight: 900;
     border-style: none;
     border-radius: 2px;
 }
@@ -32,6 +39,12 @@ h1 {
 
 #btn-register {
   background-color: #047;
+}
+
+.catBtn {
+  width: 60%;
+  margin-left: 20%;
+  height: 60px;
 }
 
 td {
