@@ -43,7 +43,7 @@
 		</md-input-container>
 	</form>
 
-	<form ng-show="items.length > 0" ng-submit="addCat(cat)">
+	<form ng-submit="addCat(cat)">
 		<md-button class="md-primary md-fab md-mini" type="submit" aria-label="Category">
 			<i class="glyphicon glyphicon-list"></i>
 		</md-button>
@@ -65,7 +65,7 @@
 		</md-input-container>
 	</form>
 
-	<md-table-container ng-show="items.length > 0" class="hidden-xs">
+	<md-table-container ng-show="requestItems.length" class="hidden-xs">
 		<table md-table>
 			<thead md-head>
 				<tr md-row>
@@ -78,7 +78,7 @@
 				</tr>
 			</thead>
 			<tbody md-body>
-				<tr md-row ng-repeat="item in items | filter: {retrieved: false} | orderBy: 'itemname' track by $index">
+				<tr md-row ng-repeat="item in requestItems = (items | filter: {retrieved: false}) | orderBy: 'itemname' track by $index">
 					<td md-cell>
 						<form ng-submit="editItem(item)">
 							<input ng-readonly="!item.edit" ng-class="{readOnly: !item.edit}" type="text" ng-model="item.itemname" placeholder="{{item.itemname}}" />
@@ -112,7 +112,7 @@
 		</table>
 	</md-table-container>
 
-	<md-card ng-show="items.length > 0" ng-repeat="item in items | filter: {retrieved: false} | orderBy: 'itemname'" class="visible-xs">
+	<md-card ng-show="items.length > 0" ng-repeat="item in items | filter: {retrieved: false} | orderBy: 'itemname' track by $index" class="visible-xs">
 		<md-card-content>
 			<form ng-submit="editItem(item)">
 				<input ng-readonly="!item.edit" ng-class="{readOnly: !item.edit}" type="text" ng-model="item.itemname" placeholder="{{item.itemname}}" class="text-center" />
