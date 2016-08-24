@@ -47,9 +47,9 @@
 			</md-card>
 		</div>
 		<div ng-repeat="cat in categories">
-			<md-button class="md-primary md-raised catBtn" ng-click="isCollapsed = !isCollapsed">{{cat}}</md-button>
+			<md-button ng-show="filteredItems.length" class="md-primary md-raised catBtn" ng-click="isCollapsed = !isCollapsed">{{cat}}</md-button>
 			<div uib-collapse="isCollapsed">
-				<md-card ng-repeat="item in items | filter: {retrieved: false, category: cat } | orderBy: 'itemname'">
+				<md-card ng-repeat="item in filteredItems = (items | filter: {retrieved: false, category: cat }) | orderBy: 'itemname'">
 					<md-card-content layout="row" layout-align="left center">{{item.itemname}}
 						<span flex></span>
 						<md-button class="md-primary md-fab md-mini" ng-click="checkOff(item)" aria-label="Check Off">
