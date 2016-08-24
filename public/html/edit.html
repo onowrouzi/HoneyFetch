@@ -6,64 +6,71 @@
 	<br>
 	<h1 class="text-center">Edit List</h1>
 
-	<md-card>
-		<md-card-content>
-			<form ng-submit="addItem(item)" layout="column">
-					<md-input-container>
-						<label>Add Item</label>
-						<input type="text" ng-model="item.itemname" placeholder="Item name..." required/>
-					</md-input-container>
-				<md-input-container layout="row">
-					<md-select aria-label="Select Category" ng-model="item.category" flex>
-						<label> Select Category </label>
-						<md-option ng-repeat="cat in categories track by $index" ng-value="cat">
-							{{cat}}
+	<div class="row">
+		<div class="col-sm-8">
+			<md-card>
+				<md-card-content>
+					<form ng-submit="addItem(item)" layout="column">
+							<md-input-container>
+								<label>Add Item</label>
+								<input type="text" ng-model="item.itemname" placeholder="Item name..." required/>
+							</md-input-container>
+						<md-input-container layout="row">
+							<md-select aria-label="Select Category" ng-model="item.category" flex>
+								<label> Select Category </label>
+								<md-option ng-repeat="cat in categories track by $index" ng-value="cat">
+									{{cat}}
+								</md-option>
+							</md-select>
+						</md-input-container>
+						<md-button class="md-primary md-raised" type="submit" aria-label="Add">
+							ADD ITEM
+						</md-button>
+					</form>
+				</md-card-content>
+			</md-card>
+		</div>
+
+		<div class="col-sm-4">
+			<form ng-show="items.length > 0" ng-submit="addPrevItem(prevItem)">
+				<md-button class="md-primary md-fab md-mini" type="submit" aria-label="Add">
+					<i class="glyphicon glyphicon-plus"></i>
+				</md-button>
+				<md-input-container>
+					<label>Previous Items</label>
+					<md-select ng-model="prevItem">
+						<md-option>None</md-option>
+						<md-option ng-repeat="item in items | filter: {retrieved: true} | orderBy: 'itemname' track by $index" ng-value="item">
+							{{item.itemname}}
 						</md-option>
 					</md-select>
 				</md-input-container>
-				<md-button class="md-primary md-raised" type="submit" aria-label="Add">
-					ADD ITEM
-				</md-button>
 			</form>
-		</md-card-content>
-	</md-card>
 
-	<form ng-show="items.length > 0" ng-submit="addPrevItem(prevItem)">
-		<md-button class="md-primary md-fab md-mini" type="submit" aria-label="Add">
-			<i class="glyphicon glyphicon-plus"></i>
-		</md-button>
-		<md-input-container>
-			<label>Previous Items</label>
-			<md-select ng-model="prevItem">
-				<md-option>None</md-option>
-				<md-option ng-repeat="item in items | filter: {retrieved: true} | orderBy: 'itemname' track by $index" ng-value="item">
-					{{item.itemname}}
-				</md-option>
-			</md-select>
-		</md-input-container>
-	</form>
+			<form ng-submit="addCat(cat)" layout="row">
+				<md-button class="md-primary md-fab md-mini" type="submit" aria-label="Category">
+					<i class="glyphicon glyphicon-list"></i>
+				</md-button>
+				<md-input-container>
+					<label>Add Category</label>
+					<input ng-model="cat">
+				</md-input-container>
+			</form>
 
-	<form ng-submit="addCat(cat)" layout="row">
-		<md-button class="md-primary md-fab md-mini" type="submit" aria-label="Category">
-			<i class="glyphicon glyphicon-list"></i>
-		</md-button>
-		<md-input-container>
-			<label>Add Category</label>
-			<input ng-model="cat">
-		</md-input-container>
-	</form>
+			<br>
 
-	<br>
+			<form ng-show="items.length > 0" ng-submit="addUser(user)" layout="row">
+				<md-button class="md-primary md-fab md-mini" type="submit" aria-label="Share">
+					<i class="glyphicon glyphicon-share"></i>
+				</md-button>
+				<md-input-container>
+					<label>Share list with... </label>
+					<input type="text" ng-model="user" required/>
+				</md-input-container>
+			</form>
+		</div>
 
-	<form ng-show="items.length > 0" ng-submit="addUser(user)" layout="row">
-		<md-button class="md-primary md-fab md-mini" type="submit" aria-label="Share">
-			<i class="glyphicon glyphicon-share"></i>
-		</md-button>
-		<md-input-container>
-			<label>Share list with... </label>
-			<input type="text" ng-model="user" required/>
-		</md-input-container>
-	</form>
+	</div>
 
 	<md-table-container ng-show="requestItems.length" class="hidden-xs">
 		<table md-table>
@@ -142,6 +149,11 @@
 
 	<br><br>
 
+	<div ng-hide="requestItems.length" ng-cloak>
+		<br><br>
+		<h3 class="text-center">An empty list is a sad list...</h3>
+	</div>
+	
 	<h2 ng-show="noItems" class="text-center">Add some items to get started!</h2>
 
 </div>
