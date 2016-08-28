@@ -3,7 +3,7 @@
 
     angular
         .module('app')
-        .controller('edit_controller', function edit_controller($scope, $http, $q, $log, $cookieStore, getPromiseItems, exists, showToast, logout) {
+        .controller('edit_controller', function edit_controller($scope, $http, $q, $log, $cookieStore, getPromiseItems, showToast, logout) {
 
             $scope.categories = ['Produce', 'Frozen', 'Dairy', 'Bread', 'Snacks', 'Condiments',
                 'Beverage', 'Canned', 'Italian', 'Mexican', 'Asian', 'Cleaning', 'Bathroom'];
@@ -12,7 +12,7 @@
             getItems();
 
             $scope.addCat = function(cat){
-                if (exists($scope.categories, cat)) {
+                if ($scope.categories.indexOf(cat) >= 0) {
                   showToast("Category already exists!", 2000);
                 } else {
                   $scope.categories.push(cat);
@@ -26,6 +26,7 @@
                 if (checkIfExists(item)) {
                     showToast('Item already exists!', 3000);
                 } else {
+                    if (!item.category) item.category = 'Unspecified';
                     item.dateAdded = new Date();
                     item.addedBy = $cookieStore.get('username');
                     item.retrieved = item.edit = false;
@@ -123,9 +124,7 @@
                       });
                       angular.forEach($scope.items, function(item) {
                           if (!item.date) item.date = moment(item.dateAdded).utc().format('MM/DD/YYYY hh:mm a');
-                          if (!item.category)
-                            item.category = "None";
-                          else if (!exists($scope.categories, item.category))
+                          if ($scope.categories.indexOf(item.category) < 0)
                             $scope.categories.push(item.category);
                       });
                     }

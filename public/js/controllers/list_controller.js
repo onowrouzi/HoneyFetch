@@ -3,7 +3,7 @@
 
     angular
         .module('app')
-        .controller('list_controller', function list_controller($scope, $http, $log, getPromiseItems, exists, showToast, logout) {
+        .controller('list_controller', function list_controller($scope, $http, $log, getPromiseItems, showToast, logout) {
 
             $scope.isCollapsed = true;
             $scope.categories = ['Produce', 'Canned', 'Condiments', 'Italian', 'Mexican', 'Asian',
@@ -16,7 +16,7 @@
                 } else {
                   angular.forEach($scope.items, function(item) {
                       item.date = moment(item.dateAdded).utc().format('MM/DD/YYYY hh:mm a');
-                      if (!exists($scope.categories, item.category))
+                      if ($scope.categories.indexOf(item.category) < 0)
                         $scope.categories.push(item.category);
                   });
                 }
