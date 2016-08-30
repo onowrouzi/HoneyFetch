@@ -9,6 +9,8 @@
                 'Beverage', 'Canned', 'Italian', 'Mexican', 'Asian', 'Cleaning', 'Bathroom'];
             $scope.users = [];
             $scope.users.push($cookieStore.get('username'));
+            $scope.numbers = [];
+            addNums();
             getItems();
 
             $scope.addCat = function(cat){
@@ -27,6 +29,7 @@
                     showToast('Item already exists!', 3000);
                 } else {
                     if (!item.category) item.category = 'Unspecified';
+                    if (!item.count) item.count = 1;
                     item.dateAdded = new Date();
                     item.addedBy = $cookieStore.get('username');
                     item.retrieved = item.edit = false;
@@ -45,6 +48,7 @@
 
             $scope.addPrevItem = function(item) {
                 $scope.prevItem = "";
+                item.count = 1;
                 item.dateAdded = new Date();
                 item.retrieved = item.edit = false;
                 item.users = $scope.users;
@@ -76,7 +80,6 @@
             $scope.editItem = function(item) {
                 item.edit = !item.edit;
                 if (!item.edit) {
-                    console.log(item.cateogry);
                     $scope.editButton = "EDIT";
                     item.dateAdded = new Date();
                     $http({
@@ -126,9 +129,15 @@
                           if (!item.date) item.date = moment(item.dateAdded).utc().format('MM/DD/YYYY hh:mm a');
                           if ($scope.categories.indexOf(item.category) < 0)
                             $scope.categories.push(item.category);
+                          if (!item.count) item.count = 1;
                       });
                     }
                 });
+            }
+
+            function addNums(){
+                for (var i = 1; i <= 30; i++)
+                  $scope.numbers.push(i);
             }
 
         });

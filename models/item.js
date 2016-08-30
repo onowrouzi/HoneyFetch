@@ -17,6 +17,9 @@ var ItemSchema = mongoose.Schema({
     category: {
         type: String
     },
+    count: {
+        type: Number
+    },
     retrieved: {
         type: Boolean
     }

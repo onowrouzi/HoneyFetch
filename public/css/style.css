@@ -3,7 +3,7 @@ html {
 }
 
 h1 {
-    font-family: Georgia;
+  font-family: Georgia;
 }
 
 .md-raised {
@@ -25,13 +25,13 @@ h1 {
 }
 
 #btn-login, #btn-register {
-    width: 100%;
-    line-height: 32px;
-    background-color: #059;
-    color: white;
-    border-style: none;
-    border-radius: 2px;
-    font-weight: 900;
+  width: 100%;
+  line-height: 32px;
+  background-color: #059;
+  color: white;
+  border-style: none;
+  border-radius: 2px;
+  font-weight: 900;
 }
 
 #btn-login {
@@ -49,11 +49,15 @@ h1 {
 }
 
 td {
-    max-width: 15vw;
+  max-width: 15vw;
 }
 
 .readOnly {
-    background: rgba(0, 0, 0, 0);
-    border: 1px solid rgba(0, 0, 0, 0);
-    width: 100%;
+  background: rgba(0, 0, 0, 0);
+  border: 1px solid rgba(0, 0, 0, 0);
+}
+
+.editInput {
+  width: 85%;
+  box-sizing: border-box;
 }
